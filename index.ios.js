@@ -9,6 +9,7 @@ var {
   AppRegistry,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } = React;
 
@@ -16,16 +17,18 @@ var BookBrowser = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
+        <Text style={styles.headline}>
+          BookBrowser
         </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
+        <Text style={styles.label}>
+          Find books containing:
         </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+        <TextInput style={styles.textInput}
+        placeholder="e.g. Javascript or Mobile"
+        returnKeyType="search"
+        enablesReturnKeyAutomatically={true}
+        onEndEditing={event =>
+          console.log(event.nativeEvent.text)}/>
       </View>
     );
   }
@@ -36,18 +39,30 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    flexDirection: 'column',
+    backgroundColor:'#5AC8FA'
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  textInput:{
+    height: 40,
+    borderWidth: 0.5,
+    marginLeft: 60,
+    marginRight:60,
+    borderColor:'#8E8E93',
+    backgroundColor:'#FFF',
+    padding:8
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  headline:{
+    fontSize:36,
+    fontWeight:'bold',
+    color:'#FFF',
+    marginBottom :28
   },
+  label:{
+    fontSize:24,
+    fontWeight:'normal',
+    color:'#FFF',
+    marginBottom:8
+  }
 });
 
 AppRegistry.registerComponent('BookBrowser', () => BookBrowser);
