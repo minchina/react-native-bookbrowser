@@ -16,8 +16,11 @@ var BookBrowser = React.createClass({
     render: function () {
         return (
             <NavigatorIOS
-                initialRoute={{component:SearchScreen,
-          title : 'Search'}}
+                initialRoute={{
+                component:SearchScreen,
+                title : 'Search',
+                passProps:{placeholder:'javascript'},
+                }}
                 style={styles.navContainer}
                 />
         )

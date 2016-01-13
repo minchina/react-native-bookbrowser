@@ -8,12 +8,33 @@ var {
     StyleSheet,
     } = React;
 
+var buildUrl = function (q) {
+    return 'https://www.googleapis.com/books/v1/volumes?q='
+        + encodeURIComponent(q)
+        + '&langRestrict=en&maxResults=40';
+};
+
 var ResultsScreen = React.createClass({
+
+    componentDidMount: function () {
+        this.fetchResults(this.props.searchPhrase)
+    },
+    fetchResults: function(searchPhrase){
+
+        fetch(buildUrl(searchPhrase))
+        .then(response => response.json())
+        .then(jsonData => console.dir(jsonData))
+        .catch(error => console.dir(error))
+    },
+
     render: function () {
         return (
             <View style={styles.container}>
                 <Text style={styles.label}>
                     This is the results screen
+                </Text>
+                <Text style={styles.label}>
+                    You searched for: {this.props.searchPhrase}
                 </Text>
             </View>
         )
@@ -30,7 +51,7 @@ var styles = StyleSheet.create({
     },
     label: {
         fontSize: 24,
-        fontWeight:'normal',
+        fontWeight: 'normal',
         color: '#fff',
     }
 });

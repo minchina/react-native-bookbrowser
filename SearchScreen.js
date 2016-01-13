@@ -5,21 +5,20 @@
 'use strict';
 var React = require('react-native');
 var {
-    AppRegistry,
     StyleSheet,
     Text,
     TextInput,
     View,
-    NavigatorIOS
     } = React;
 var ResultScreen = require('./ResultsScreen');
 
 var SearchScreen = React.createClass({
 
-    gotoResultScreen : function(){
+    gotoResultScreen : function(searchPhrase){
       this.props.navigator.push({
           title: 'Results',
           component: ResultScreen,
+          passProps:{'searchPhrase':searchPhrase}
       })
     },
     render: function () {
@@ -32,11 +31,11 @@ var SearchScreen = React.createClass({
                     Find books containing:
                 </Text>
                 <TextInput style={styles.textInput}
-                           placeholder="e.g. Javascript or Mobile"
+                           placeholder={this.props.placeholder}
                            returnKeyType="search"
                            enablesReturnKeyAutomatically={true}
                            onEndEditing={event =>
-          this.gotoResultScreen()}/>
+          this.gotoResultScreen(event.nativeEvent.text)}/>
             </View>
         )
     }
@@ -48,7 +47,7 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
-        backgroundColor: Math.random() > 0.5 ? '#5AC8FA' : '4CD964'
+        backgroundColor: '#5AC8FA'
     },
     textInput: {
         height: 40,
