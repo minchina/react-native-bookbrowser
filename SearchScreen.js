@@ -12,8 +12,16 @@ var {
     View,
     NavigatorIOS
     } = React;
+var ResultScreen = require('./ResultsScreen');
 
 var SearchScreen = React.createClass({
+
+    gotoResultScreen : function(){
+      this.props.navigator.push({
+          title: 'Results',
+          component: ResultScreen,
+      })
+    },
     render: function () {
         return (
             <View style={styles.container}>
@@ -28,7 +36,7 @@ var SearchScreen = React.createClass({
                            returnKeyType="search"
                            enablesReturnKeyAutomatically={true}
                            onEndEditing={event =>
-          console.log(event.nativeEvent.text)}/>
+          this.gotoResultScreen()}/>
             </View>
         )
     }
