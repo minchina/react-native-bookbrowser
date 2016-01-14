@@ -16,22 +16,51 @@ var buildUrl = function (q) {
 
 var ResultsScreen = React.createClass({
 
+    getInitialState: function () {
+        return {
+            isLoading: true
+        }
+    },
+
     componentDidMount: function () {
         this.fetchResults(this.props.searchPhrase)
     },
-    fetchResults: function(searchPhrase){
+    fetchResults: function (searchPhrase) {
 
         fetch(buildUrl(searchPhrase))
-        .then(response => response.json())
-        .then(jsonData => console.dir(jsonData))
-        .catch(error => console.dir(error))
+            .then(response => response.json())
+            .then(jsonData => {
+                this.setState({isLoading: false});
+                console.dir(jsonData)
+            })
+            .catch(error => console.dir(error))
     },
 
     render: function () {
+        if (this.state.isLoading) {
+            return this.renderLoadingMessage();
+        } else {
+            return this.renderResults();
+        }
+
+    },
+    renderLoadingMessage: function () {
         return (
             <View style={styles.container}>
                 <Text style={styles.label}>
-                    This is the results screen
+                    Searching for "{this.props.searchPhrase}"
+                </Text>
+                <Text style={styles.label}>
+                    Please wait...
+                </Text>
+            </View>
+        )
+    },
+    renderResults: function () {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.label}>
+                    Finished searching.
                 </Text>
                 <Text style={styles.label}>
                     You searched for: {this.props.searchPhrase}
