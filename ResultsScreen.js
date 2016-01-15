@@ -7,6 +7,7 @@ var {
     Text,
     StyleSheet,
     ListView,
+    Image,
     } = React;
 
 var buildUrl = function (q) {
@@ -20,8 +21,8 @@ var ResultsScreen = React.createClass({
     getInitialState: function () {
         return {
             isLoading: true,
-            dataSource:new ListView.DataSource({
-                rowHasChanged:(row1, row2) => row1!==row2,
+            dataSource: new ListView.DataSource({
+                rowHasChanged: (row1, row2) => row1 !== row2,
             })
         }
     },
@@ -35,8 +36,9 @@ var ResultsScreen = React.createClass({
         fetch(buildUrl(searchPhrase))
             .then(response => response.json())
             .then(jsonData => {
-                this.setState({isLoading: false,
-                dataSource:this.state.dataSource.cloneWithRows(jsonData.items)
+                this.setState({
+                    isLoading: false,
+                    dataSource: this.state.dataSource.cloneWithRows(jsonData.items)
                 });
                 console.dir(jsonData)
             })
@@ -66,21 +68,27 @@ var ResultsScreen = React.createClass({
     renderResults: function () {
         return (
             <ListView
-            dataSource = {this.state.dataSource}
-            renderRow = {this.renderBook}
-            style={styles.listView}
+                dataSource={this.state.dataSource}
+                renderRow={this.renderBook}
+                style={styles.listView}
             />
         )
     },
-    renderBook: function(book) {
+    renderBook: function (book) {
         return (
             <View style={styles.row}>
-                <Text style={styles.title}>
-                    {book.volumeInfo.title}
-                </Text>
-                <Text style={styles.subtitle}>
-                    {book.volumeInfo.subtitle}
-                </Text>
+                <Image style={styles.thumbnail}
+                       source={{uri:
+                book.volumeInfo.imageLinks.smallThumbnail}}
+                />
+                <View style={styles.rightContainer}>
+                    <Text style={styles.title}>
+                        {book.volumeInfo.title}
+                    </Text>
+                    <Text style={styles.subtitle}>
+                        {book.volumeInfo.subtitle}
+                    </Text>
+                </View>
             </View>
         )
     }
@@ -99,29 +107,32 @@ var styles = StyleSheet.create({
         fontWeight: 'normal',
         color: '#fff',
     },
-    listView :{
-
+    listView: {},
+    rightContainer: {
+        flex: 1,
     },
     row: {
-        flex:1,
-        flexDirection:'column',
-        justifyContent:'center',
-        alignItems:'center',
-        backgroundColor:'#5AC8FA',
-        paddingTop:20,
-        paddingBottom:20,
-        paddingLeft:20,
-        paddingRight:20,
-        marginTop:1,
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#5AC8FA',
+        paddingRight: 20,
+        marginTop: 1,
     },
-    title:{
-        fontSize:20,
-        fontWeight:'bold',
-        color:'#fff',
+    thumbnail: {
+        width: 70,
+        height: 108,
+        marginRight: 16,
+    },
+    title: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#fff',
     },
     subtitle: {
-        fontSize:16,
-        fontWeight : 'normal',
+        fontSize: 16,
+        fontWeight: 'normal',
         color: '#ff'
     }
 });
