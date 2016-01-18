@@ -8,8 +8,11 @@ var {
     StyleSheet,
     ListView,
     Image,
+    TouchableHighlight,
     } = React;
 
+
+var BookDetails = require('./BookDetails');
 var buildUrl = function (q) {
     return 'https://www.googleapis.com/books/v1/volumes?q='
         + encodeURIComponent(q)
@@ -76,21 +79,31 @@ var ResultsScreen = React.createClass({
     },
     renderBook: function (book) {
         return (
-            <View style={styles.row}>
-                <Image style={styles.thumbnail}
-                       source={{uri:
+            <TouchableHighlight onPress={()=>
+                this.showBookDetails(book)}>
+                <View style={styles.row}>
+                    <Image style={styles.thumbnail}
+                           source={{uri:
                 book.volumeInfo.imageLinks.smallThumbnail}}
-                />
-                <View style={styles.rightContainer}>
-                    <Text style={styles.title}>
-                        {book.volumeInfo.title}
-                    </Text>
-                    <Text style={styles.subtitle}>
-                        {book.volumeInfo.subtitle}
-                    </Text>
+                    />
+                    <View style={styles.rightContainer}>
+                        <Text style={styles.title}>
+                            {book.volumeInfo.title}
+                        </Text>
+                        <Text style={styles.subtitle}>
+                            {book.volumeInfo.subtitle}
+                        </Text>
+                    </View>
                 </View>
-            </View>
-        )
+            </TouchableHighlight>
+        );
+    },
+    showBookDetails: function (book) {
+        this.props.navigator.push({
+            title: book.volumeInfo.title,
+            components: BookDetails,
+            passProps: {book}
+        })
     }
 });
 
