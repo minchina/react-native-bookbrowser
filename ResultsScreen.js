@@ -101,7 +101,7 @@ var ResultsScreen = React.createClass({
     showBookDetails: function (book) {
         this.props.navigator.push({
             title: book.volumeInfo.title,
-            components: BookDetails,
+            component: BookDetails,
             passProps: {book}
         })
     }
