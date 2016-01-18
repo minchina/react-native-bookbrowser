@@ -120,7 +120,9 @@ var styles = StyleSheet.create({
         fontWeight: 'normal',
         color: '#fff',
     },
-    listView: {},
+    listView: {
+        marginTop:63
+    },
     rightContainer: {
         flex: 1,
     },
